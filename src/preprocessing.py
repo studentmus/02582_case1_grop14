@@ -4,6 +4,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
+
 def load_data():
     train = pd.read_csv("data/case1Data.csv")
     X = train.drop(columns=["y"])
@@ -37,12 +38,12 @@ def get_preprocessed_data():
     X, y, X_new = load_data()
 
     
-    X = X.drop(columns=["C_02"])
+    X = X.drop(columns=["C_02"]) # why are we dropping this column? cause it is always the same value.
     X_new = X_new.drop(columns=["C_02"])
 
     preprocessor = build_preprocessor(X) 
     
-    X_processed = preprocessor.fit_transform(X)
+    X_processed = preprocessor.fit_transform(X) # why are we fitting here? if we then later do cross-validation, won't we be leaking information from the test folds into the training folds?
     
     X_new_processed = preprocessor.transform(X_new)
 
